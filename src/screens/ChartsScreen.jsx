@@ -67,6 +67,8 @@ export function ChartsScreen() {
   const [country, setCountry]   = useState("GLOBAL");
   const [vnylType, setVnylType] = useState("artists");
   const [countryOpen, setCountryOpen] = useState(false);
+  const [vnylCountry, setVnylCountry] = useState("GLOBAL");
+  const [vnylCountryOpen, setVnylCountryOpen] = useState(false);
   const [slideDir, setSlideDir] = useState(null); // "left" | "right"
   const touchStartX = useRef(null);
 
@@ -179,7 +181,8 @@ export function ChartsScreen() {
       ) : (
         <>
           {/* VNYL sub-controls */}
-          <div style={{ padding: "10px 20px", borderBottom: `1px solid ${DARK}10` }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: "10px 20px", borderBottom: `1px solid ${DARK}10` }}>
             <div style={{ display: "flex", gap: "14px" }}>
               {["artists", "albums", "songs"].map(t => (
                 <button key={t} onClick={() => setVnylType(t)}
@@ -190,6 +193,32 @@ export function ChartsScreen() {
                     opacity: vnylType === t ? 1 : 0.3 }}>{t}</span>
                 </button>
               ))}
+            </div>
+
+            {/* Country picker */}
+            <div style={{ position: "relative" }}>
+              <button onClick={() => setVnylCountryOpen(o => !o)}
+                style={{ background: "none", border: `1px solid ${DARK}30`, borderRadius: "6px",
+                  padding: "4px 10px", cursor: "pointer", display: "flex", alignItems: "center", gap: "5px" }}>
+                <span style={{ fontFamily: "'Chivo', sans-serif", fontSize: "10px", fontWeight: 700,
+                  color: DARK, letterSpacing: "0.06em" }}>{vnylCountry}</span>
+                <span style={{ color: DARK, fontSize: "8px", opacity: 0.4 }}>▾</span>
+              </button>
+              {vnylCountryOpen && (
+                <div style={{ position: "absolute", right: 0, top: "100%", marginTop: "4px",
+                  backgroundColor: "#FAF8F5", border: `1px solid ${DARK}20`, borderRadius: "10px",
+                  overflow: "hidden", zIndex: 10, boxShadow: "0 8px 24px rgba(0,0,0,0.15)", minWidth: "80px" }}>
+                  {countries.map(c => (
+                    <button key={c} onClick={() => { setVnylCountry(c); setVnylCountryOpen(false); }}
+                      style={{ display: "block", width: "100%", background: c === vnylCountry ? BLUE : "none",
+                        border: "none", padding: "8px 14px", cursor: "pointer", textAlign: "left" }}>
+                      <span style={{ fontFamily: "'Chivo', sans-serif", fontSize: "10px",
+                        fontWeight: c === vnylCountry ? 700 : 300, color: c === vnylCountry ? "#FAF8F5" : DARK,
+                        letterSpacing: "0.06em" }}>{c}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
