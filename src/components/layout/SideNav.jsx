@@ -24,6 +24,7 @@ export function SideNav({ active, setActive, spinning, setSpinning, onDiscTap, o
     <div style={{
       width: "220px", minWidth: "220px",
       height: "100%",
+      boxSizing: "border-box",
       backgroundColor: CREAM,
       borderRight: `1.5px solid ${DARK}15`,
       display: "flex", flexDirection: "column",
